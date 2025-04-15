@@ -1,4 +1,5 @@
 let currentTargetWord = "";
+let correctGuesses = [];
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("newGameBtn").addEventListener("click", function() {
@@ -46,6 +47,7 @@ function clearGame() {
     while (correctGuessesList.firstChild) {
         correctGuessesList.removeChild(correctGuessesList.firstChild);
     }  
+    correctGuesses = [];
 }
 
 async function handleGuessSubmission() {
@@ -75,12 +77,20 @@ async function handleGuessSubmission() {
         }
     }
 
+    if (correctGuesses.includes(guess)) {
+        feedbackElem.textContent = "You already guessed that word.";
+        guessInput.value = "";
+        return;
+    }
+
     // Check if the guess is a valid dictionary word
     feedbackElem.textContent = "Checking dictionary...";
     try {
         let dictResult = await checkDictionaryWord(guess);
         if (dictResult.valid) {
             feedbackElem.textContent = "Valid guess!";
+            correctGuesses.push(guess);
+            addGuessToList(guess);
             // Update score and correct guesses
         } else {
             feedbackElem.textContent = "Invalid dictionary word.";
@@ -90,6 +100,15 @@ async function handleGuessSubmission() {
         console.error(error);
     }
     guessInput.value = "";
+}
+
+
+function addGuessToList(guess) {
+    const correctList = document.getElementById('correctList');
+    const li = document.createElement('li');
+    li.textContent = guess;
+    li.className = "list-group-item";
+    correctList.prepend(li);
 }
 
 
@@ -118,6 +137,7 @@ function letterFrequency(str) {
 }
 
 // Shuffles the letters in a string
+// https://stackoverflow.com/questions/2450954/adding-a-method-to-shuffle-an-array-in-javascript
 function shuffleString(str) {
     let array = str.split('');
     for (let i = array.length - 1; i > 0; i--) {
