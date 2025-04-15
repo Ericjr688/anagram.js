@@ -4,9 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     document.getElementById("shuffleBtn").addEventListener("click", function() {
+        // Shuffle the letters in the current word
         let lettersElement = document.getElementById("letters");
         let currentWord = lettersElement.innerText;
         let shuffledWord = shuffleString(currentWord);
+        // Update the displayed letters with the shuffled word
         lettersElement.innerText = shuffledWord;
     })
     // Initialize the game when the DOM is fully loaded
@@ -27,11 +29,23 @@ function setUpNewGame(wordObj) {
         let targetWord = wordObj.word;
         let shuffledWord = shuffleString(targetWord);
 
+        clearGame(); // Clear previous game state
         document.getElementById("letters").innerText = shuffledWord;
-        document.getElementById("score").innerText = "0";
     } else {
         console.error("Invalid word object received:", wordObj);
     }
+}
+
+function clearGame() {
+    document.getElementById("letters").innerText = "";
+    document.getElementById("score").innerText = "0";
+    document.getElementById("guessInput").value = ""; 
+
+    // clear list of correct guesses
+    let correctGuessesList = document.getElementById("correctList");
+    while (correctGuessesList.firstChild) {
+        correctGuessesList.removeChild(correctGuessesList.firstChild);
+    }  
 }
 
 console.log("Game logic loaded.");
