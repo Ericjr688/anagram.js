@@ -54,10 +54,8 @@ function clearGame() {
     document.getElementById("feedback").textContent = ""; 
 
     // clear list of correct guesses
-    let correctGuessesList = document.getElementById("correctList");
-    while (correctGuessesList.firstChild) {
-        correctGuessesList.removeChild(correctGuessesList.firstChild);
-    } 
+    document.getElementById("correctList");
+    
     
     document.getElementById('letters').style.display = "";
     document.getElementById('correctList').style.display = "";
@@ -156,11 +154,31 @@ async function handleGuessSubmission() {
 
 
 function addGuessToList(guess) {
-    const correctList = document.getElementById('correctList');
+    const correctGuessesContainer = document.getElementById('correctList');
+    const wordLength = guess.length;
+
+    // Check if a UL for this word length already exists
+    let wordLengthSection = document.getElementById(`wordLength-${wordLength}`);
+    if (!wordLengthSection) {
+        // Create a new section for this word length
+        const sectionHeader = document.createElement('h3');
+        sectionHeader.textContent = `Words of Length ${wordLength}`;
+        sectionHeader.className = "h5 mt-3";
+
+        wordLengthSection = document.createElement('ul');
+        wordLengthSection.id = `wordLength-${wordLength}`;
+        wordLengthSection.className = "list-group mb-3";
+
+        // Append the header and the UL to the container
+        correctGuessesContainer.appendChild(sectionHeader);
+        correctGuessesContainer.appendChild(wordLengthSection);
+    }
+
+    // Add the guess to the appropriate UL
     const li = document.createElement('li');
     li.textContent = guess;
     li.className = "list-group-item";
-    correctList.prepend(li);
+    wordLengthSection.prepend(li);
 }
 
 
@@ -231,7 +249,7 @@ function loadHistory() {
             totalIncorrectGuesses: 0
         };
     }
-    
+
     document.getElementById("gamesPlayed").textContent = stats.gamesPlayed;
     document.getElementById("highScore").textContent = stats.highScore;
     document.getElementById("lowScore").textContent = stats.lowScore;
