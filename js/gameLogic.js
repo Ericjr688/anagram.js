@@ -23,6 +23,12 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         await handleGuessSubmission();
     });
+
+    document.getElementById("clearHistoryBtn").addEventListener("click", function() {
+        // Clear the game history
+        clearHistory();
+    });
+
     // Initialize the game when the DOM is fully loaded
     clearGame();
     getRandomWord(setUpNewGame);
@@ -199,6 +205,17 @@ async function checkDictionaryWord(word) {
     console.log(response);
     let result = await response.json();
     return result;
+}
+
+function clearHistory() {
+    // clear stats from localStorage
+    localStorage.removeItem("gameStats");
+    document.getElementById("gamesPlayed").textContent = 0;
+    document.getElementById("highScore").textContent = 0;
+    document.getElementById("lowScore").textContent = 0;
+
+    document.getElementById("avgCorrect").textContent = 0;
+    document.getElementById("avgIncorrect").textContent = 0;
 }
 
 
