@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initialize the game when the DOM is fully loaded
     clearGame();
+    loadHistory();
     getRandomWord(setUpNewGame);
 });
 
@@ -216,6 +217,27 @@ function clearHistory() {
 
     document.getElementById("avgCorrect").textContent = 0;
     document.getElementById("avgIncorrect").textContent = 0;
+}
+
+function loadHistory() {
+    // load game stats from ui if present
+    let stats = JSON.parse(localStorage.getItem("gameStats"));
+    if (!stats) {
+        stats = {
+            gamesPlayed: 0,
+            highScore: 0,
+            lowScore: Infinity,
+            totalCorrectGuesses: 0,
+            totalIncorrectGuesses: 0
+        };
+    }
+    
+    document.getElementById("gamesPlayed").textContent = stats.gamesPlayed;
+    document.getElementById("highScore").textContent = stats.highScore;
+    document.getElementById("lowScore").textContent = stats.lowScore;
+
+    document.getElementById("avgCorrect").textContent = (stats.totalCorrectGuesses / stats.gamesPlayed).toFixed(1);
+    document.getElementById("avgIncorrect").textContent = (stats.totalIncorrectGuesses / stats.gamesPlayed).toFixed(1);
 }
 
 
