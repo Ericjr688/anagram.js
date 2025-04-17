@@ -6,6 +6,7 @@ let currentIncorrectGuesses = 0;
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("newGameBtn").addEventListener("click", function() {
         // Reset the game state for a new game
+        updateGameStats(currentScore, correctGuesses.length, currentIncorrectGuesses);
         clearGame();
         getRandomWord(setUpNewGame);
     });
@@ -27,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("clearHistoryBtn").addEventListener("click", function() {
         // Clear the game history
         clearHistory();
+        clearGame();
+        getRandomWord(setUpNewGame);
     });
 
     // Initialize the game when the DOM is fully loaded
