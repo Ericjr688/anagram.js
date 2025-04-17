@@ -57,7 +57,7 @@ function clearGame() {
     document.getElementById("feedback").textContent = ""; 
 
     // clear list of correct guesses
-    document.getElementById("correctList");
+    document.getElementById("correctList").innerHTML = "";
     
     
     document.getElementById('letters').style.display = "";
