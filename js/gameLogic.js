@@ -108,8 +108,7 @@ async function handleGuessSubmission() {
     }
 
     // Check if the guess is a valid dictionary word
-    // if it is a 7 letter word, do not check the dictionary
-    
+    // If the guess is 7 letters long, check if it matches the target word
     if (guess.length === 7) {
         if (guess === currentTargetWord) {
             feedbackElem.textContent = "Congratulations! You guessed the target word.";
@@ -160,7 +159,7 @@ function addGuessToList(guess) {
     const correctGuessesContainer = document.getElementById('correctList');
     const wordLength = guess.length;
 
-    // Check if a UL for this word length already exists
+    // Check if a ul for this word length already exists
     let wordLengthSection = document.getElementById(`wordLength-${wordLength}`);
     if (!wordLengthSection) {
         // Create a new section for this word length
@@ -172,12 +171,10 @@ function addGuessToList(guess) {
         wordLengthSection.id = `wordLength-${wordLength}`;
         wordLengthSection.className = "list-group mb-3";
 
-        // Append the header and the UL to the container
         correctGuessesContainer.appendChild(sectionHeader);
         correctGuessesContainer.appendChild(wordLengthSection);
     }
 
-    // Add the guess to the appropriate UL
     const li = document.createElement('li');
     li.textContent = guess;
     li.className = "list-group-item";
@@ -186,7 +183,7 @@ function addGuessToList(guess) {
 
 
 function updateGameStats(finalScore, correctCount, incorrectCount) {
-    // Retrieve the existing stats from localStorage or initialize them if not present.
+    // retrieve the existing stats from localStorage or initialize them if not present.
     let stats = JSON.parse(localStorage.getItem("gameStats"));
     if (!stats) {
         stats = {
@@ -198,7 +195,7 @@ function updateGameStats(finalScore, correctCount, incorrectCount) {
         };
     }
 
-    // Update the stats with the current game data.
+    // update the stats with the current game data.
     stats.gamesPlayed++;
 
     stats.highScore = Math.max(stats.highScore, finalScore);
